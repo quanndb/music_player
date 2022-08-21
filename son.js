@@ -64,6 +64,12 @@ const app = {
         image: 'https://i1.sndcdn.com/artworks-qefDi0LXjvwVrAKJ-W9Ixsw-t500x500.jpg',
         path: './mp3/ghost.mp3'
     },
+    {
+      name: 'Đoạn tuyệt nàng đi',
+      singer: 'lợn rồ',
+      image: 'https://i.ytimg.com/vi/x6M6U6DBJLA/maxresdefault.jpg',
+      path: './mp3/dt.mp3'
+  }
   ],
   setConfig: function (key, value) {
     this.config[key] = value;
