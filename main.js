@@ -57,10 +57,10 @@ const app ={
             path: './mp3/ghost.mp3'
         },
         {
-            name: 'Đoạn tuyệt nàng đi',
-            singer: 'lợn rồ',
-            image: 'https://i.ytimg.com/vi/x6M6U6DBJLA/maxresdefault.jpg',
-            path: './mp3/dt.mp3'
+            name: 'chúng ta đã từng có nhau',
+            singer: 'LIL Z Poet',
+            image: 'https://lyricvn.com/wp-content/uploads/2021/11/65dc1a9b418217d2b23ca86c7792f541.jpg',
+            path: './mp3/ct.mp3'
         }
     ],
     
