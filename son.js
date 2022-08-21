@@ -22,11 +22,11 @@ const playlist = $(".playlist");
 const app = {
   currentIndex: 0,
   isPlaying: false,
-  isRandom: false,
-  isRepeat: false,
+  isRandom: true,
+  isRepeat: true,
   config: {},
   // (1/2) Uncomment the line below to use localStorage
-  // config: JSON.parse(localStorage.getItem(PlAYER_STORAGE_KEY)) || {},
+  config: JSON.parse(localStorage.getItem(PlAYER_STORAGE_KEY)) || {},
   songs: [
     {
         name: 'love08',
@@ -74,7 +74,7 @@ const app = {
   setConfig: function (key, value) {
     this.config[key] = value;
     // (2/2) Uncomment the line below to use localStorage
-    // localStorage.setItem(PlAYER_STORAGE_KEY, JSON.stringify(this.config));
+    localStorage.setItem(PlAYER_STORAGE_KEY, JSON.stringify(this.config));
   },
   render: function () {
     const htmls = this.songs.map((song, index) => {

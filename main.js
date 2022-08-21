@@ -7,11 +7,15 @@ const audio=$('#audio')
 
 const nextBtn=$('.btn-next')
 const prevBtn=$('.btn-prev')
+const randomBtn=$('.btn-random')
+const repeatBtn=$('.btn-repeat')
 
 
 const app ={
     currentIndex: 0,
     isPlaying: false,
+    isRandom: false,
+    isRepeat: false,
     //list songs
     songs:[
         {
@@ -60,9 +64,9 @@ const app ={
     
     //render view
     render: function(){
-        const htmls= this.songs.map(song=>{
+        const htmls= this.songs.map((song,index)=>{
             return`
-            <div class="song">
+            <div class="song ${index===this.currentIndex ? 'active':''}">
             <div class="thumb" style="background-image: url('${song.image}')">
             </div>
             <div class="body">
@@ -148,13 +152,39 @@ const app ={
 
         //nextSong
         nextBtn.onclick=function(){
-            _this.nextSong()
+            if(_this.isRandom){
+                _this.playRandomsong()
+            }else{
+                _this.nextSong()
+            }
             audio.play()
         }
         //prevSong
         prevBtn.onclick=function(){
-            _this.prevSong()
+            if(_this.isRandom){
+                _this.playRandomsong()
+            }else{
+                _this.prevSong()
+            }
             audio.play()
+        }
+        //random
+        randomBtn.onclick=function(){
+            _this.isRandom=!_this.isRandom
+            randomBtn.classList.toggle('active',_this.isRandom)
+        }
+        //repeat
+        repeatBtn.onclick=function(){
+            _this.isRepeat=!_this.isRepeat
+            repeatBtn.classList.toggle('active',_this.isRepeat)
+        }      
+        //onended
+        audio.onended=function(){
+            if(_this.isRepeat){
+                _this.playRepeatsong()
+            }else{
+                nextBtn.click()
+            }
         }
     },
 
@@ -178,6 +208,17 @@ const app ={
             this.currentIndex=this.songs.length-1
         }
         this.loadCurrentSong()
+    },
+    playRandomsong: function(){
+        let newIndex=Math.floor(Math.random()*this.songs.length)
+        while(newIndex===this.currentIndex){
+            newIndex=Math.floor(Math.random()*this.songs.length)
+        }
+        this.currentIndex=newIndex
+        this.loadCurrentSong()
+    },
+    playRepeatsong: function(){
+        audio.play()
     },
 
     //run app
