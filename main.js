@@ -10,6 +10,8 @@ const prevBtn=$('.btn-prev')
 const randomBtn=$('.btn-random')
 const repeatBtn=$('.btn-repeat')
 
+const playlist=$('.playlist')
+
 
 const app ={
     currentIndex: 0,
@@ -37,7 +39,7 @@ const app ={
             path: './mp3/moonlight.mp3'
         },
         {
-            name: 'vaicaunoicokhiennguoithaydoi',
+            name: 'VCNCKNTĐ',
             singer: 'GreyD x tlinh',
             image: 'https://i.ytimg.com/vi/2iidlwQ-NfU/maxresdefault.jpg',
             path: './mp3/vc.mp3'
@@ -66,7 +68,7 @@ const app ={
     render: function(){
         const htmls= this.songs.map((song,index)=>{
             return`
-            <div class="song ${index===this.currentIndex ? 'active':''}">
+            <div class="song ${index===this.currentIndex ? 'active':''}" data-index="${index}">
             <div class="thumb" style="background-image: url('${song.image}')">
             </div>
             <div class="body">
@@ -79,8 +81,7 @@ const app ={
           </div>
             `
         })
-        $('.playlist').innerHTML=htmls.join('')
-
+        playlist.innerHTML=htmls.join('')
     },
 
     //defineProperties
@@ -158,6 +159,8 @@ const app ={
                 _this.nextSong()
             }
             audio.play()
+            _this.handlePlaylist()
+
         }
         //prevSong
         prevBtn.onclick=function(){
@@ -167,6 +170,8 @@ const app ={
                 _this.prevSong()
             }
             audio.play()
+            _this.handlePlaylist()
+
         }
         //random
         randomBtn.onclick=function(){
@@ -186,6 +191,24 @@ const app ={
                 nextBtn.click()
             }
         }
+        //click into playlist
+        playlist.onclick= function(e){
+            const songNode=e.target.closest('.song:not(.active)')
+            if( songNode || e.target.closest('.option')){
+                if(songNode){
+                    /////////////////////////////////////////////////////////////////////////////
+                    //songNode.getAttribute('data-index') || songNode.dataset.index
+                    /////////////////////////////////////////////////////////////////////////////
+                    _this.currentIndex=Number(songNode.dataset.index)
+                    _this.loadCurrentSong()
+                    _this.render()
+                    audio.play()
+                }
+                if(e.target.closest('.option')){
+                    console.log(123)
+                }
+            }
+        }
     },
 
     //loadCurrentSong
@@ -193,6 +216,7 @@ const app ={
         heading.textContent= this.currentSong.name
         cdthumb.style.backgroundImage= `url('${this.currentSong.image}')`
         audio.src= this.currentSong.path
+
     },
 
     nextSong: function(){
@@ -201,6 +225,7 @@ const app ={
             this.currentIndex=0
         }
         this.loadCurrentSong()
+        this.render()
     },
     prevSong: function(){
         this.currentIndex--
@@ -208,6 +233,7 @@ const app ={
             this.currentIndex=this.songs.length-1
         }
         this.loadCurrentSong()
+        this.render()
     },
     playRandomsong: function(){
         let newIndex=Math.floor(Math.random()*this.songs.length)
@@ -216,10 +242,23 @@ const app ={
         }
         this.currentIndex=newIndex
         this.loadCurrentSong()
+        this.render()
     },
     playRepeatsong: function(){
         audio.play()
     },
+
+    handlePlaylist: function(){
+        // $('.song.active').classList.remove('active')
+        setTimeout(()=>{
+            $('.song.active').scrollIntoView({
+                behavior: 'smooth',
+                block: 'center'
+            })
+        },100)
+    },
+
+
 
     //run app
     start: function(){
@@ -229,7 +268,8 @@ const app ={
 
         this.loadCurrentSong()
 
-        this.render()
+        this.render()  
+        
     }
 }
 
