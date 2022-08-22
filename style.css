@@ -121,14 +121,10 @@
     background-repeat: no-repeat;
     background-size: 0% ;
   }
-
-  .progress:hover{
-    height: 12px;
-  }
   
   .progress::-webkit-slider-thumb {
     -webkit-appearance: none;
-    width: 15px;
+    width: 12px;
     height: 15px;
     border-radius: 5px;
     background-color: var(--primary-color);
