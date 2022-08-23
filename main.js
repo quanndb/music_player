@@ -295,4 +295,3 @@ const app ={
 }
 
 app.start()
-
