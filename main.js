@@ -12,12 +12,14 @@ const repeatBtn=$('.btn-repeat')
 
 const playlist=$('.playlist')
 
+const PLAYER_STORAGE_KEY='QUANNDB'
 
 const app ={
     currentIndex: 0,
     isPlaying: false,
-    isRandom: false,
+    isRandom:  false,
     isRepeat: false,
+    config: JSON.parse(localStorage.getItem(PLAYER_STORAGE_KEY)) || {},
     //list songs
     songs:[
         {
@@ -63,7 +65,10 @@ const app ={
             path: './mp3/ct.mp3'
         }
     ],
-    
+    setConfig: function(key,value){
+        this.config[key]=value
+        localStorage.setItem(PLAYER_STORAGE_KEY,JSON.stringify(this.config))
+    },
     //render view
     render: function(){
         const htmls= this.songs.map((song,index)=>{
@@ -176,12 +181,14 @@ const app ={
         //random
         randomBtn.onclick=function(){
             _this.isRandom=!_this.isRandom
-            randomBtn.classList.toggle('active',_this.isRandom)
+            randomBtn.classList.toggle('active', _this.isRandom)
+            _this.setConfig('random', _this.isRandom)
         }
         //repeat
         repeatBtn.onclick=function(){
             _this.isRepeat=!_this.isRepeat
             repeatBtn.classList.toggle('active',_this.isRepeat)
+            _this.setConfig('repeat',_this.isRepeat)
         }      
         //onended
         audio.onended=function(){
@@ -258,10 +265,23 @@ const app ={
         },100)
     },
 
-
+    loadConfig: function(){
+        this.isRepeat=this.config.repeat
+        this.isRandom=this.config.random
+        if(!this.isRandom){
+            this.isRandom=false
+        }
+        if(!this.isRepeat){
+            this.isRepeat=false
+        }
+        repeatBtn.classList.toggle('active',this.isRepeat)
+        randomBtn.classList.toggle('active',this.isRandom)
+    },
 
     //run app
     start: function(){
+        this.loadConfig()
+
         this.defineProperties()
 
         this.handleEvents()
@@ -269,9 +289,9 @@ const app ={
         this.loadCurrentSong()
 
         this.render()  
-        
+
+
     }
 }
 
 app.start()
-
