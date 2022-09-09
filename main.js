@@ -64,6 +64,12 @@ const app ={
             image: 'https://lyricvn.com/wp-content/uploads/2021/11/65dc1a9b418217d2b23ca86c7792f541.jpg',
             path: './mp3/ct.mp3'
         }
+        {
+            name: 'Bình nguyên vô tận',
+            singer: 'Pho lo ti no',
+            image: 'https://i.pinimg.com/originals/d7/7e/ad/d77eadafecac7302bea7cd5a9a95bc2b.jpg',
+            path: './mp3/binhnguyen.mp3'
+        }
     ],
     setConfig: function(key,value){
         this.config[key]=value
